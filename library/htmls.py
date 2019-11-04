@@ -48,7 +48,7 @@ def generateHtml(points, words, dates):
     </div>
 
     <div class="item">
-        <div class="polaroid"><img src="maps/map_{i:02d}_overview.png">
+        <div class="polaroid"><img src="/mapoverview?lon={point.x}&lat={point.y}">
         <div class="caption">Where</div>
         <div class="smallcaption">
         <a href="http://www.google.com/maps/place/{point.y},{point.x}" target="_blank">
@@ -59,7 +59,7 @@ def generateHtml(points, words, dates):
     </div>
 
     <div class="item">
-        <div class="polaroid"><img src="maps/map_{i:02d}_zoom.png">
+        <div class="polaroid"><img src="/maplocal?lon={point.x}&lat={point.y}">
         <div class="caption">Where</div>
         <div class="smallcaption">
         <a href="http://www.google.com/maps/place/{point.y},{point.x}" target="_blank">

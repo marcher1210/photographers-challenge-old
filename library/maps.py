@@ -1,8 +1,9 @@
 import smopy
-from io import StringIO
+import io
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
+from django.http import HttpResponse
 
 overview_fn = "html/maps/map_{:02d}_overview.png"
 local_fn =    "html/maps/map_{:02d}_zoom.png"
@@ -41,7 +42,7 @@ def drawOnMapAndSave(map, ps, fn):
     plt.close('all')
 
 
-def getLocalMap(p):
+def getLocalMapResponse(p):
 
     x1 = p.x - localMapRadius
     y1 = p.y - localMapRadius/2
@@ -54,8 +55,13 @@ def getLocalMap(p):
     ax = map.show_mpl(figsize=(5,5), dpi=300)
     x, y = map.to_pixels(p.y, p.x)
     ax.plot(x, y, 'or', ms=5, mew=1, alpha=0.35)
-    canvas.savefig()
-    plt.savefig()
 
+    f = ax.figure
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close(f)
+    plt.close()
+    response = HttpResponse(buf.getvalue(), content_type='image/png')
     return response
     
